@@ -2,9 +2,10 @@ import os
 from PIL import ImageFont
 from PIL import Image
 from PIL import ImageDraw
+from PIL import ImageChops
 
 fonts = os.listdir('fonts/')
-font_size = 20
+font_size = 28
 img_size = 32
 
 # update character lists here to create new data sets for training
@@ -17,7 +18,9 @@ def save_characters(font, charlist, label):
     for c in charlist:
         img = Image.new("RGBA", (img_size, img_size), (255, 255, 255))
         draw = ImageDraw.Draw(img)
-        draw.text((0, 0), c, (0, 0, 0), font=font)
+        w, h = draw.textsize(text=c, font=font)
+        w = round((img_size - w) / 2)
+        draw.text((w, 0), c, (0, 0, 0), font=font)
         ImageDraw.Draw(img)
         outfile = filename.lower().replace('.ttf', '') + '_%s_%s.png' % (label, c)
         print('SAVED', outfile)
