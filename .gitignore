@@ -1,4 +1,4 @@
-data_generator/base_letters/*
-data_generator/fonts/*
+model_training/base_letters/*
+model_training/fonts/*
 .idea/*
 .idea/
