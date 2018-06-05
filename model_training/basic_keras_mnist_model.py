@@ -11,6 +11,8 @@ if __name__ == '__main__':
     img_size = 28
     input_shape = (img_size, img_size, 1)
     (X_train, y_train), (X_test, y_test) = mnist.load_data()
+    print('Training Data Shape', X_train.shape)
+    print('Training Labels Shape', y_train.shape)
 
     X_train = X_train.reshape(X_train.shape[0], 1, img_size, img_size)
     X_test = X_test.reshape(X_test.shape[0], 1, img_size, img_size)
@@ -34,7 +36,7 @@ if __name__ == '__main__':
     model.add(Dense(10, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-    model.fit(X_train, Y_train, batch_size=32, nb_epoch=10, verbose=1)
+    model.fit(X_train, Y_train, batch_size=32, epochs=10, verbose=1)
     score = model.evaluate(X_test, Y_test, verbose=0)
     print(score)
     model.save('model/keras_mnist.mod')

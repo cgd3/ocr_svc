@@ -5,7 +5,7 @@ from PIL import ImageDraw
 
 fonts = os.listdir('fonts/')
 font_size = 24
-img_size = 28
+img_size = 100
 
 # update character lists here to create new data sets for training
 lowercase = 'abcdefghijklmnopqrstuvwxyz'
@@ -19,7 +19,8 @@ def save_characters(font, charlist, label):
         draw = ImageDraw.Draw(img)
         w, h = draw.textsize(text=c, font=font)
         w = round((img_size - w) / 2)
-        draw.text((w, 0), c, (0, 0, 0), font=font)
+        h = round((img_size - h) / 2)
+        draw.text((w, h), c, (0, 0, 0), font=font)
         ImageDraw.Draw(img)
         outfile = filename.lower().replace('.ttf', '') + '_%s_%s.png' % (label, c)
         print('SAVED', outfile)

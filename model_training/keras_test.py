@@ -1,23 +1,18 @@
 import numpy as np
-#import keras
+import keras
 import cv2
 
-#model = keras.models.load_model('model/keras_mnist.mod')
-img = cv2.imread('base_letters/calibri_lower_m.png')
-#img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+model = keras.models.load_model('model/keras_mnist.mod')
+img = cv2.imread('base_letters/arial_numbers_2.png')
+img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
 
 
-#print('MODEL', model.summary())
+print('MODEL', model.summary())
 print('IMAGE', img.shape)
-test = np.asarray([img])
-print('TEST', test.shape)
+img = np.expand_dims(img, axis=2)
+img = np.expand_dims(img, axis=0)
+print('IMAGE', img.shape)
 
-for sample in test:
-    for x in sample:
-        for y in x:
-            y = np.asarray(y[0])
-
-print('TEST', test.shape)
-
-#preds = model.predict(test)
-#print(preds)
+preds = model.predict(img)
+print(str(preds))
+print(len(preds[0]))
