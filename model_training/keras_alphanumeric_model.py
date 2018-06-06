@@ -8,7 +8,6 @@ from keras.layers import Convolution2D, MaxPooling2D
 from keras.utils import np_utils
 
 
-
 letter_dir = 'base_letters/'
 img_size = 32
 batch = 32
@@ -27,9 +26,11 @@ def randomize_image(image):
     x += random.randint(-10, 10)
     y += random.randint(-10, 10)
     image = image[y:y + img_size, x:x + img_size]
-    # add noise
-    # add artifacts
-    # lighten/darken/decrease contrast
+    # TODO noise
+    # TODO artifacts
+    # TODO brightness/contrast
+    # TODO size
+    # TODO skew
     return image
 
 
