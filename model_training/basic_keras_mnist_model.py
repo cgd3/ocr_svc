@@ -11,8 +11,6 @@ if __name__ == '__main__':
     img_size = 28
     input_shape = (img_size, img_size, 1)
     (X_train, y_train), (X_test, y_test) = mnist.load_data()
-    print('Training Data Shape', X_train.shape)
-    print('Training Labels Shape', y_train.shape)
 
     X_train = X_train.reshape(X_train.shape[0], 1, img_size, img_size)
     X_test = X_test.reshape(X_test.shape[0], 1, img_size, img_size)
@@ -24,9 +22,13 @@ if __name__ == '__main__':
     X_test = X_test.reshape(X_test.shape[0], img_size, img_size, 1)
     Y_train = np_utils.to_categorical(y_train, 10)
     Y_test = np_utils.to_categorical(y_test, 10)
+    print('Training Data Shape', X_train.shape)
+    print('Training Labels Shape', y_train.shape)
 
     model = Sequential()
-    model.add(Convolution2D(32, (3, 3), activation='relu', input_shape=input_shape))
+    model.add(Convolution2D(32, (3, 3),
+                            activation='relu',
+                            input_shape=input_shape))
     model.add(Convolution2D(32, (3, 3), activation='relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.25))
