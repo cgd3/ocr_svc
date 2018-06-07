@@ -145,5 +145,5 @@ if __name__ == '__main__':
     classifier = instantiate_model()
     classifier.fit(training_data, training_labels, batch_size=batch, epochs=epoch, verbose=1)
     score = classifier.evaluate(test_data, test_labels, batch_size=batch)
-    print(score)
+    print('OVERALL SCORE', score)
     classifier.save('model/keras_alphanumeric.mod')
