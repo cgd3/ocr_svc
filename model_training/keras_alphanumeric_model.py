@@ -11,26 +11,52 @@ from keras.utils import np_utils
 letter_dir = 'base_letters/'
 img_size = 32
 batch = 32
-epoch = 10
+epoch = 30
 charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 num_classes = len(charset)
 random.seed()
-sample_count = batch * 300
+sample_count = batch * 1000
 input_shape = (img_size, img_size, 1)
+wiggle = 5
 
 
-def randomize_image(image):
+def add_gaussian_noise(image):
+    gauss = np.random.normal(loc=0, scale=20, size=image.shape)
+    gauss = gauss.reshape(image.shape)
+    noisy = image + gauss
+    return noisy
+
+
+def crop_image_random(image):
     size = image.shape
     x = round(size[0] / 2 - img_size / 2)
     y = round(size[1] / 2 - img_size / 2)
-    x += random.randint(-10, 10)
-    y += random.randint(-10, 10)
-    image = image[y:y + img_size, x:x + img_size]
-    # TODO noise
-    # TODO artifacts
-    # TODO brightness/contrast
-    # TODO size
-    # TODO skew
+    x += random.randint(-wiggle, wiggle)  # add lateral variance
+    y += random.randint(-wiggle, wiggle)  # add vertical variance
+    return image[y:y + img_size, x:x + img_size]
+
+
+def random_brightness(image):
+    image += random.randint(-175, 75)
+    low_vals = image < 0
+    image[low_vals] = 0
+    high_vals = image > 255
+    image[high_vals] = 255
+    return image
+
+
+def random_size(image):
+    factor = random.uniform(0.75, 1.25)
+    size = round(image.shape[0] * factor)
+    cv2.resize(image, dst=image, dsize=(size, size), fx=factor, fy=factor)
+    return image
+
+
+def randomize_image(image):
+    image = add_gaussian_noise(image)
+    image = random_brightness(image)
+    image = random_size(image)
+    image = crop_image_random(image)
     return image
 
 
@@ -57,14 +83,12 @@ def instantiate_model():
 
     model.add(Convolution2D(filters=32,
                             kernel_size=(3, 3),
-                            padding='same',
                             strides=(1, 1),
                             activation='relu',
                             input_shape=input_shape))
 
     model.add(Convolution2D(filters=32,
                             kernel_size=(3, 3),
-                            padding='same',
                             strides=(1, 1),
                             activation='relu'))
 
@@ -120,5 +144,6 @@ if __name__ == '__main__':
     training_data, training_labels, test_data, test_labels = prepare_datasets(samples)
     classifier = instantiate_model()
     classifier.fit(training_data, training_labels, batch_size=batch, epochs=epoch, verbose=1)
-    classifier.evaluate(test_data, test_labels, batch_size=batch)
+    score = classifier.evaluate(test_data, test_labels, batch_size=batch)
+    print(score)
     classifier.save('model/keras_alphanumeric.mod')
