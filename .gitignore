@@ -1,2 +1,4 @@
 .idea/*
 .idea/
+model_training/sample_letters/*
+model_training/base_letters/*
