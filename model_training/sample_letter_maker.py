@@ -36,12 +36,19 @@ def crop_image_random(image):
     return image[y:y + img_size, x:x + img_size]
 
 
+def add_line(image, color):
+    y1 = random.randint(16, 30)
+    y2 = y1 + random.randint(-4, 4)
+    image = cv2.line(image, (0, y1), (31, y2), color=color, thickness=1)
+    return image
+
+
 def make_random_image(font_file, c, idx):
     # base overhead stuff
     paper = random.randint(150, 255)
     ink = random.randint(0, 75)
     font_size = random.randint(min_font, max_font)
-    #underscore = bool(random.getrandbits(1))
+    underscore = bool(random.getrandbits(1))
     font = ImageFont.truetype(font_dir + font_file, font_size)
     left = random.choice(charset)
     right = random.choice(charset)
@@ -59,6 +66,8 @@ def make_random_image(font_file, c, idx):
     canvas = cv2.cvtColor(canvas, cv2.COLOR_RGB2GRAY)
     canvas = crop_image_random(canvas)
     canvas = add_gaussian_noise(canvas)
+    if underscore:
+        canvas = add_line(canvas, ink)
     # alternative is to return the image here instead of saving for the sake of creating test/training data
     canvas = Image.fromarray(np.uint8(canvas))
     # save file

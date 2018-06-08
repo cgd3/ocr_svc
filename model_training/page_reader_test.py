@@ -58,6 +58,10 @@ def scan_image(image):
             idx += 8
             inferance = single_inferance(sample)
             results.append(inferance)
+            pp(inferance)
+            cv2.imshow('scaled and padded sample', sample)
+            cv2.waitKey(0)
+            cv2.destroyAllWindows()
         except:
             return results
 
@@ -84,8 +88,3 @@ if __name__ == "__main__":
         sample = img[y:y+h, x:x+w]  # take a sample out of the original image
         sample = pad_scale_sample(sample)  # scale to 32px high and pad sides for scanning
         predictions = scan_image(sample)
-        print('\r\n\r\n\r\n')
-        pp(predictions)
-        cv2.imshow('scaled and padded sample', sample)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
