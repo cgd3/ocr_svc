@@ -4,7 +4,7 @@ from PIL import Image
 from PIL import ImageDraw
 
 fonts = os.listdir('fonts/')
-font_size = 24
+font_size = 28
 img_size = 100  # image will be square
 charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 
