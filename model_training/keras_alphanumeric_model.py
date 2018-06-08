@@ -11,11 +11,11 @@ from keras.utils import np_utils
 letter_dir = 'base_letters/'
 img_size = 32
 batch = 32
-epoch = 30
+epoch = 50
 charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 num_classes = len(charset)
 random.seed()
-sample_count = batch * 1000
+sample_count = batch * 4000
 input_shape = (img_size, img_size, 1)
 wiggle = 5
 
@@ -32,7 +32,7 @@ def crop_image_random(image):
     x = round(size[0] / 2 - img_size / 2)
     y = round(size[1] / 2 - img_size / 2)
     x += random.randint(-wiggle, wiggle)  # add lateral variance
-    y += random.randint(-wiggle, wiggle)  # add vertical variance
+    y += random.randint(0, wiggle*2)  # add vertical variance
     return image[y:y + img_size, x:x + img_size]
 
 
@@ -46,7 +46,7 @@ def random_brightness(image):
 
 
 def random_size(image):
-    factor = random.uniform(0.75, 1.25)
+    factor = random.uniform(0.5, 1.5)
     size = round(image.shape[0] * factor)
     cv2.resize(image, dst=image, dsize=(size, size), fx=factor, fy=factor)
     return image
