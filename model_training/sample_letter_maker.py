@@ -38,7 +38,7 @@ def random_brightness(image):
 def random_size(image):
     factor = random.uniform(0.5, 1.5)
     size = round(image.shape[0] * factor)
-    cv2.resize(image, dst=image, dsize=(size, size), fx=factor, fy=factor)
+    image = cv2.resize(image, dsize=(size, size), fx=factor, fy=factor)
     return image
 
 
@@ -47,6 +47,7 @@ def randomize_image(image):
     image = random_brightness(image)
     image = random_size(image)
     image = crop_image_random(image)
+    # TODO add underscore to some samples
     return image
 
 

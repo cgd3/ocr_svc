@@ -14,6 +14,7 @@ def save_characters(font, charlist):
         img = Image.new("RGBA", (img_size, img_size), (255, 255, 255))
         draw = ImageDraw.Draw(img)
         w, h = draw.textsize(text=c, font=font)
+        # TODO generate several more samples with some characters before/after
         w = round((img_size - w) / 2)
         h = round((img_size - h) / 2)
         draw.text((w, h), c, (0, 0, 0), font=font)
