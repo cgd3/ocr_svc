@@ -78,7 +78,6 @@ def make_random_image(font_file, c):
 
 
 def generate_samples():
-    random.SystemRandom()
     random.seed()
     fonts = os.listdir(font_dir)
     results = []
